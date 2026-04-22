@@ -9,13 +9,13 @@ import {
 import { Type } from 'class-transformer';
 
 export class GetWeatherDto {
-  @IsNotEmpty({ message: 'City is required' })
-  @IsString({ message: 'City must be a string' })
-  city: string;
+  @IsNotEmpty({ message: 'Latitude is required' })
+  @IsNumber()
+  lat: number;
 
-  @IsNotEmpty({ message: 'Country code is required' })
-  @IsString({ message: 'Country code must be a string' })
-  code: string;
+  @IsNotEmpty({ message: 'Longitude is required' })
+  @IsNumber()
+  lon: number;
 }
 
 class HourlyWeatherDto {

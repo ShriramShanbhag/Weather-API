@@ -4,11 +4,11 @@ import { WeatherService } from '../../services/weather/weather.service';
 
 @Controller('weather')
 export class WeatherController {
-  constructor(private readonly weatherService: WeatherService) {}
+  constructor(private readonly weatherService: WeatherService) { }
 
   @Get()
   getWeather(@Query() query: GetWeatherDto) {
-    const { city, code } = query;
-    return this.weatherService.getWeather({ city, code });
+    const { lat, lon } = query;
+    return this.weatherService.getWeather({ lat, lon });
   }
 }

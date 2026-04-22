@@ -21,10 +21,8 @@ export class WeatherService {
     this.baseUrl = this.configService.get<string>('weather.baseUrl') as string;
   }
 
-  async getWeather({ city, code }: GetWeatherDto): Promise<WeatherDto> {
-    const CITY = city.charAt(0).toUpperCase() + city.slice(1);
-
-    const cacheData = await this.loadFromCache({ city, code });
+  async getWeather({ lat, lon }: GetWeatherDto): Promise<WeatherDto> {
+    const cacheData = await this.loadFromCache({ lat, lon });
 
     if (cacheData) {
       this.logger.log('Cache hit!');
@@ -36,7 +34,7 @@ export class WeatherService {
     const { data } = await firstValueFrom(
       this.httpService
         .get<WeatherDto>(
-          `${this.baseUrl}/${CITY},${code.toUpperCase()}?key=${this.apiKey}&unitGroup=us&contentType=json`,
+          `${this.baseUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -51,21 +49,21 @@ export class WeatherService {
         ),
     );
 
-    await this.saveToCache({ city, code }, data);
+    await this.saveToCache({ lat, lon }, data);
 
     return data;
   }
 
-  private async saveToCache({ city, code }: GetWeatherDto, data: WeatherDto) {
-    const cacheKey = `${city}-${code}`;
+  private async saveToCache({ lat, lon }: GetWeatherDto, data: WeatherDto) {
+    const cacheKey = `${lat}-${lon}`;
     await this.cacheManager.set(cacheKey, data, 60 * 60 * 24); // 24 hours
   }
 
   private async loadFromCache({
-    city,
-    code,
+    lat,
+    lon,
   }: GetWeatherDto): Promise<WeatherDto | null> {
-    const cacheKey = `${city}-${code}`;
+    const cacheKey = `${lat}-${lon}`;
     return await this.cacheManager.get<WeatherDto>(cacheKey);
   }
 }
