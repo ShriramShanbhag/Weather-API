@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerConfigService } from './config/ThrottlerConfigService';
 import { DatabaseModule } from './database/database.module';
 import { CityModule } from './modules/city/city.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { CityModule } from './modules/city/city.module';
     WeatherModule,
     LoggerModule,
     DatabaseModule,
-    CityModule
+    CityModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [
