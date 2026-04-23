@@ -8,6 +8,8 @@ import configuration from './config/configuration';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerConfigService } from './config/ThrottlerConfigService';
+import { DatabaseModule } from './database/database.module';
+import { CityModule } from './modules/city/city.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ThrottlerConfigService } from './config/ThrottlerConfigService';
     }),
     WeatherModule,
     LoggerModule,
+    DatabaseModule,
+    CityModule
   ],
   controllers: [AppController],
   providers: [
@@ -31,4 +35,4 @@ import { ThrottlerConfigService } from './config/ThrottlerConfigService';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
