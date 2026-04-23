@@ -4,10 +4,12 @@ import { WeatherController } from './controller/weather/weather.controller';
 import { HttpModule } from '@nestjs/axios';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigService } from '@nestjs/config';
+import { CityModule } from '../city/city.module';
 
 @Module({
   imports: [
     HttpModule,
+    CityModule,
     CacheModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         store: 'redis',
@@ -20,4 +22,4 @@ import { ConfigService } from '@nestjs/config';
   providers: [WeatherService],
   controllers: [WeatherController],
 })
-export class WeatherModule {}
+export class WeatherModule { }

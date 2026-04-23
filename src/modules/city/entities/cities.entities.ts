@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, Index } from "typeorm";
 
 @Entity('cities')
 
@@ -6,6 +6,7 @@ export class City {
     @PrimaryColumn({ type: 'int' })
     id: number;
 
+    @Index()
     @Column({ type: 'varchar' })
     name: string;
 
