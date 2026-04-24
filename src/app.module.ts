@@ -11,6 +11,9 @@ import { ThrottlerConfigService } from './config/ThrottlerConfigService';
 import { DatabaseModule } from './database/database.module';
 import { CityModule } from './modules/city/city.module';
 import { UsersModule } from './modules/users/users.module';
+import { BullModule } from '@nestjs/bullmq';
+import { ConfigService } from '@nestjs/config';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -26,7 +29,20 @@ import { UsersModule } from './modules/users/users.module';
     LoggerModule,
     DatabaseModule,
     CityModule,
-    UsersModule
+    UsersModule,
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => {
+        return {
+          connection: {
+            host: config.get('redis.host'),
+            port: Number(config.get('redis.port')),
+          },
+        };
+      },
+      inject: [ConfigService],
+    }),
+    MailModule
   ],
   controllers: [AppController],
   providers: [
