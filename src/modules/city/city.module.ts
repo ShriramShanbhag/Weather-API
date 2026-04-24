@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CityService } from './services/city/city.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { City } from './entities/cities.entities';
+import { City } from './entities/city.entity';
 
 @Module({
   providers: [CityService],

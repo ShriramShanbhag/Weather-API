@@ -3,7 +3,7 @@ import { Logger } from "@nestjs/common";
 import * as fs from 'fs';
 import * as path from 'path';
 import dataSource from '../../ormconfig';
-import { City } from "../modules/city/entities/cities.entities";
+import { City } from "../modules/city/entities/city.entity";
 
 async function seed() {
     Logger.log('Seeding cities...');
