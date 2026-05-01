@@ -22,4 +22,8 @@ export class CityService {
             take: safeLimit
         })
     }
+
+    async findOne(id: number): Promise<City | null> {
+        return this.cityRepository.findOne({ where: { id } })
+    }
 }
