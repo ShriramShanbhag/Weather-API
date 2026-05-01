@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn, Index } from "typeorm";
+import { Entity, Column, PrimaryColumn, Index, ManyToMany } from "typeorm";
+import { User } from "../../users/entities/user.entity";
 
 @Entity('cities')
 
@@ -30,4 +31,7 @@ export class City {
 
     @Column({ type: 'int' })
     pop: number;
+
+    @ManyToMany(() => User, (user) => user.subscribedCities)
+    users: User[];
 }
