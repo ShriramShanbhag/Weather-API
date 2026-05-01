@@ -14,6 +14,8 @@ import { UsersModule } from './modules/users/users.module';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigService } from '@nestjs/config';
 import { MailModule } from './modules/mail/mail.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -42,7 +44,8 @@ import { MailModule } from './modules/mail/mail.module';
       },
       inject: [ConfigService],
     }),
-    MailModule
+    MailModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -51,6 +54,10 @@ import { MailModule } from './modules/mail/mail.module';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {}
