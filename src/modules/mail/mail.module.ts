@@ -4,12 +4,12 @@ import { BullModule } from '@nestjs/bullmq';
 import { MailProcessor } from './processors/mail.processor';
 
 @Module({
-  providers: [MailService],
+  providers: [MailService, MailProcessor],
   imports: [
     BullModule.registerQueue({
       name: 'email-queue',
     }),
   ],
-  exports: [MailService, MailProcessor],
+  exports: [MailService],
 })
 export class MailModule { }
