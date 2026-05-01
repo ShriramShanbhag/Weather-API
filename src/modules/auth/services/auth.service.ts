@@ -16,11 +16,16 @@ export class AuthService {
         private readonly userService: UserService
     ) { }
 
-    async register(email: string, password: string): Promise<User | null> {
+    async register(email: string, password: string): Promise<Partial<User> | null> {
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(password, salt);
+        const user = await this.userService.create({ email, password: hash });
+        if (user) {
+            const { password: _unused, ...result } = user;
+            return result;
+        }
+        return null;
 
-        return this.userService.create({ email, password: hash });
     }
 
     async validateUser(email: string, password: string) {
