@@ -5,6 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/modules/users/services/user/user.service";
 import * as bcrypt from 'bcrypt';
 import { User } from "src/modules/users/entities/user.entity";
+import { MailService } from "src/modules/mail/services/mail.service";
 
 
 @Injectable()
@@ -13,7 +14,8 @@ export class AuthService {
 
     constructor(
         private readonly jwtService: JwtService,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly mailService: MailService
     ) { }
 
     async register(email: string, password: string): Promise<Partial<User> | null> {
@@ -21,6 +23,7 @@ export class AuthService {
         const hash = await bcrypt.hash(password, salt);
         const user = await this.userService.create({ email, password: hash });
         if (user) {
+            this.mailService.sendWelcomeEmail(user.email);
             const { password: _unused, ...result } = user;
             return result;
         }
